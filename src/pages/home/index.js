@@ -1,11 +1,11 @@
 import React,{ Component } from 'react';
-import { getUserName } from 'util'
+import { getUsername } from 'util'
 
 class Home extends Component{
 
 	render(){
 		return(
-			<div>{ getUserName() }</div>
+			<div>{ getUsername() }</div>
 		)
 	}
 

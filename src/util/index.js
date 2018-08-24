@@ -27,7 +27,7 @@ export const setUsername = (username)=>{
 	return window.localStorage.setItem('username',username)
 }
 
-export const getUserName = ()=>{
+export const getUsername = ()=>{
 	return window.localStorage.getItem('username')
 }
 

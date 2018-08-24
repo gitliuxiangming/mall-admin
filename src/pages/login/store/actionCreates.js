@@ -25,6 +25,7 @@ export const GetInitDataActionFn = (values)=>{
 		.then((result)=>{
 			//登录成功	
 			if(result.code == 0){
+				console.log(result);
 				//存储用户信息在浏览器
 				setUsername(result.data.username);
 				window.location.href = '/';

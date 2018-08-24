@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Login from 'pages/login';
 import Home from 'pages/home';
-import { getUserName  } from 'util';
+import { getUsername  } from 'util';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,14 +21,14 @@ class App extends Component {
 			<Route 
 				{...rest} 
 				render={props=>(
-					getUserName ()
+					getUsername ()
 					?(<Component {...props} />)
 					:(<Redirect to='/login' />)
 				)}
 			/>
 		)
 		const LoginRouter  = ({ component: Component, ...rest })=>{
-			if(getUserName()){
+			if(getUsername()){
 				return <Redirect to="/" />
 			}else{
 				return <Route {...rest} component={Component} />
