@@ -1,0 +1,9 @@
+.header .logo{
+	width: 200px;
+	float: left;
+	font-size: 20px;
+	color:#fafafa;
+}
+.header .ant-dropdown-link{
+	float:right;
+}

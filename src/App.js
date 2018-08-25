@@ -2,6 +2,10 @@
 import React, { Component } from 'react';
 import Login from 'pages/login';
 import Home from 'pages/home';
+import User from 'pages/user';
+import Category from 'pages/category';
+import Product from 'pages/product';
+import ErrorPage from 'pages/errorpage';
 import { getUsername  } from 'util';
 import {
   BrowserRouter as Router,
@@ -27,7 +31,7 @@ class App extends Component {
 				)}
 			/>
 		)
-		const LoginRouter  = ({ component: Component, ...rest })=>{
+		const LoginRoute = ({ component: Component, ...rest })=>{
 			if(getUsername()){
 				return <Redirect to="/" />
 			}else{
@@ -37,9 +41,14 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<ProtectRoute exact path='/' component={ Home } />
-					<LoginRouter  path='/login' component={ Login } />
-					
+					<Switch>
+						<ProtectRoute exact path='/' component={ Home } />
+						<ProtectRoute  path='/user' component={ User } />
+						<ProtectRoute  path='/category' component={ Category } />
+						<ProtectRoute  path='/product' component={ Product } />
+						<LoginRoute  path='/login' component={ Login } />
+						<Route component={ ErrorPage } />
+					</Switch>
 				</div>
 			</Router>
 		);

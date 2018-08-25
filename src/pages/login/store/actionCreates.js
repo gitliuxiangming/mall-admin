@@ -29,8 +29,8 @@ export const GetInitDataActionFn = (values)=>{
 				//存储用户信息在浏览器
 				setUsername(result.data.username);
 				window.location.href = '/';
-			}else if(data.code == 1){
-				message.error(data.mesages)
+			}else if(result.code == 1){
+				message.error(result.message)
 			}
 			dispatch(getLoginDoneAction());
 		})
