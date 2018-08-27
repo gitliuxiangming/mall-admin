@@ -1,15 +1,16 @@
 import React,{ Component } from 'react';
-import Layout from 'common/layout'
+import { Switch,Route } from 'react-router-dom'
+import CategoryList from './list.js'
+import CategoryAdd from './add.js'
 
 class Category extends Component{
 
 	render(){
 		return(
-			<div>
-				<Layout>
-					Category!!!
-				</Layout>
-			</div>
+			<Switch>
+				<Route exact path="/category"  component={ CategoryList } />
+				<Route path="/category/add"  component={ CategoryAdd } />
+			</Switch>
 		)
 	}
 

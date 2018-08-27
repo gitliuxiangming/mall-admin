@@ -13,16 +13,13 @@ class NormalLoginForm extends Component{
 	constructor(props){
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.state = {
-			isFetching:false
-		}
 	}
-  handleSubmit(e){
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      this.props.handleLogin(values);
-    });
-  }
+	handleSubmit(e){
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			this.props.handleLogin(values);
+		});
+	}
 
   render() {
     const { getFieldDecorator } = this.props.form;
