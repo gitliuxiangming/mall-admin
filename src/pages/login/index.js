@@ -45,7 +45,7 @@ class NormalLoginForm extends Component{
 	          	type="primary" 
 	          	onClick={this.handleSubmit} 
 	          	className="login-form-button"
-	          	loading={this.state.isFetching}
+	          	loading={this.props.isFetching}
 	          >
 	            登录
 	          </Button>

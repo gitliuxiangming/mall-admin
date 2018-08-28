@@ -8,8 +8,10 @@ class Category extends Component{
 	render(){
 		return(
 			<Switch>
-				<Route exact path="/category"  component={ CategoryList } />
+				
 				<Route path="/category/add"  component={ CategoryAdd } />
+				<Route path="/category/:pid?"  component={ CategoryList } />
+
 			</Switch>
 		)
 	}

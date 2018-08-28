@@ -12,6 +12,9 @@ class NormalLoginForm extends Component{
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+	componentDidMount(){
+		this.props.getLevelOneCategories();
+	}
 	handleSubmit(e){
 		e.preventDefault();
 		this.props.form.validateFields((err,values) => {
@@ -74,8 +77,14 @@ class NormalLoginForm extends Component{
 				              required: true, message: '选择分类名称!',
 				            }],
 				          })(
-				            <Select initialValue="0" style={{ width: 120 }}>
-						      <Option value="0">Jack</Option>
+				            <Select initialValue="0" style={{ width: 300 }}>
+						      <Option value="0">根分类</Option>
+						      {
+						      	this.props.levelOneCategories.map((category)=>{
+						      		return  <Option key={category.get('_id')} value={category.get('_id')}>{category.get('name')}</Option>
+						      	})
+
+						      }
 						    </Select>
 				          )}
 				        </FormItem>
@@ -83,7 +92,7 @@ class NormalLoginForm extends Component{
 				          <Button 
 				          	type="primary" 
 				          	onClick={ this.handleSubmit }
-				          	loading = {this.props.isFetching}
+				          	loading = {this.props.isAddFetching}
 				          >提交</Button>
 				        </FormItem>
 
@@ -98,14 +107,18 @@ class NormalLoginForm extends Component{
 
 const mapStateToProps = (state)=>{
 	return {
-		isAddFetching:state.get('category').get('isAddFetching')
+		isAddFetching:state.get('category').get('isAddFetching'),
+		levelOneCategories:state.get('category').get('levelOneCategories')
 	}
 }
 
 const mapDispatchToProps = (dispatch)=>{
 	return{
 		handleAdd:(values)=>{
- 			dispatch(createActions.GetAddAction(values));
+ 			dispatch(createActions.getAddAction(values));
+		},
+		getLevelOneCategories:()=>{
+			dispatch(createActions.getLevelOneCategoriesAction());
 		}
 	}
 }
