@@ -34,6 +34,17 @@ class NormalCategoryList extends Component{
 				this.props.handlePage(newPid,1);
 			})
 		}
+		/*
+		//更改过分类名称后执行
+		if(oldPath!=newPath){
+			let newPid = this.props.match.params.pid || 0;
+			this.setState(
+				{pid:newPid
+			},()=>{
+				this.props.handlePage(newPid,1);
+			})
+		}
+		*/
 	}
 
 	render(){
@@ -119,7 +130,7 @@ class NormalCategoryList extends Component{
 							}
 						}
 						onChange = {(pagination)=>{
-							this.props.handleList(pid,pagination.current);
+							this.props.handlePage(pid,pagination.current);
 						}}
 						loading = {
 							{
@@ -131,10 +142,10 @@ class NormalCategoryList extends Component{
 					<Modal
 			          title="修改分类名称"
 			          visible={this.props.updateModalVisible}
-			          onOk={this.props.handleUpdateName}
+			          onOk={()=>{this.props.handleUpdateName(this.props.updateId,this.value)}}
 			          onCancel={this.props.handleCancelName}
 			        >
-			          <Input placeholder={this.updateName} />
+			          <Input placeholder={this.props.updateName} value={this.value}/>
 			        </Modal>
 				</div>
 			</Layout>
@@ -154,10 +165,12 @@ const mapStateToProps = (state)=>{
 		pageSize:state.get('category').get('pageSize'),
 		list:state.get('category').get('list'),
 		updateModalVisible:state.get('category').get('updateModalVisible'),
+		updateId:state.get('category').get('updateId'),
+		updateName:state.get('category').get('updateName'),
 	}
 }
-
 const mapDispatchToProps = (dispatch)=>{
+
 	return{
 		handlePage:(pid,page)=>{
  			dispatch(createActions.getPageAction(pid,page));
@@ -166,7 +179,7 @@ const mapDispatchToProps = (dispatch)=>{
 			dispatch(createActions.getShowUpdateModalAction(updateId,updateName));
 		},
 		handleUpdateName:(updateId,updateName)=>{
-			dispatch(createActions.getChangeUpdateModalAction(updateId,updateName));
+			dispatch(createActions.getChangeInputValueAction(updateId,updateName));
 		},
 		handleCancelName:()=>{
 			dispatch(createActions.getHideUpdateModalAction());

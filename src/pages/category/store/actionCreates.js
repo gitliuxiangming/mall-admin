@@ -1,6 +1,6 @@
 import { request,setUsername,removeUsername } from 'util';
 import { message } from 'antd';
-import { ADD_CATEGORY,GET_CATEGORIES } from 'api';
+import { ADD_CATEGORY,GET_CATEGORIES,GET_INPUTVALUE } from 'api';
 import * as types from './actionTypes.js';
 
 //生成action
@@ -50,13 +50,9 @@ export const getHideUpdateModalAction = ()=>{
 		type:types.HIDE_UPDATE_MODAL,
 	}
 }
-export const getChangeUpdateModalAction = (updateId,updateName)=>{
+export const getChangeUpdateModalAction = ()=>{
 	return{
 		type:types.CHANGE_UPDATE_MODAL,
-		payload:{
-			updateId,
-			updateName
-		}
 	}
 }
 //方法
@@ -138,3 +134,28 @@ export const getPageAction = (pid,page)=>{
 	}
 }
 
+
+export const getChangeInputValueAction = (updateId,updateName)=>{
+	// console.log('actionCreates的',updateName)
+	return (dispatch)=>{
+		request({
+			url: GET_INPUTVALUE,
+			data:{
+				updateId:updateId,
+				updateName:updateName
+			}
+		})
+		.then((result) => {
+			if (result.code == 0) {
+				// console.log(result)
+				dispatch(getChangeUpdateModalAction())
+				dispatch(getPageAction(result.data.pid,1));
+			}else{
+				message.error('获取数据失败')
+			}
+		})
+		.catch(function (err) {
+			message.error('服务器错误')
+		});
+	}
+}

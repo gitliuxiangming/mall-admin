@@ -10,7 +10,10 @@ const defaultState = fromJS({
 	total:0,
 	list:[],
 	pageSize:10,
-	updateModalVisible:false
+	updateModalVisible:false,
+	updateId:'',
+	updateName:'',
+	// inputvalue:''
 })
 
 export default (state=defaultState,action)=>{
@@ -49,9 +52,7 @@ export default (state=defaultState,action)=>{
 	}
 	if (action.type === types.CHANGE_UPDATE_MODAL){
 		return state.merge({
-			"updateModalVisible":true,
-			updateId:action.payload.updateId,
-			updateName:action.payload.updateName
+			"updateModalVisible":false,
 		})
 	}
 	return state;
