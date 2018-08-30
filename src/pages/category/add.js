@@ -55,7 +55,7 @@ class NormalLoginForm extends Component{
 						<Breadcrumb.Item>分类管理</Breadcrumb.Item>
 						<Breadcrumb.Item>添加分类</Breadcrumb.Item>
 					</Breadcrumb>
-					<Form>
+					<Form style={{ marginTop:30 }}>
 						<FormItem
 				          {...formItemLayout}
 				          label="分类名称"
@@ -65,7 +65,7 @@ class NormalLoginForm extends Component{
 				              required: true, message: '填写分类名称!',
 				            }],
 				          })(
-				            <Input />
+				            <Input style={{ width: 300 }} placeholder='填写分类名称'/>
 				          )}
 				        </FormItem>
 				        <FormItem

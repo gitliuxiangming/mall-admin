@@ -6,4 +6,5 @@ export const GET_USERS = SERVER+'admin/users';
 export const ADMIN_LOGOUT = SERVER+'user/logout';
 export const ADD_CATEGORY = SERVER+'category';
 export const GET_CATEGORIES = SERVER+'category';
-export const GET_INPUTVALUE = SERVER+'category/getvalue';
+export const GET_INPUTVALUE = SERVER+'category/updateName';
+export const CHANGE_ORDER = SERVER+'category/updateOrder';

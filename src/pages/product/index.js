@@ -1,16 +1,18 @@
 import React,{ Component } from 'react';
-import { getUsername } from 'util';
-import Layout from 'common/layout'
+import { Switch,Route } from 'react-router-dom'
+import ProductSave from './save.js'
+import ProductList from './list.js'
 
 class Product extends Component{
 
 	render(){
 		return(
-			<div>
-				<Layout>
-					Product!!!
-				</Layout>
-			</div>
+			<Switch>
+				
+				<Route path="/product/save"  component={ ProductSave } />
+				<Route path="/product/"  component={ ProductList } />
+
+			</Switch>
 		)
 	}
 

@@ -62,9 +62,14 @@ class NormalCategoryList extends Component{
 			  title: '排序',
 			  dataIndex: 'order',
 			  key: 'order',
-			  render:(text,record)=>(
-			  	<InputNumber defaultValue={record.order} />
-			  )
+			  render:(text,record)=>{
+			  	return <InputNumber
+				  	  	defaultValue={record.order} 
+				  	 	onBlur={(e)=>{
+		        	  		this.props.handleOrder(pid,record.id,e.target.value)
+		        	 	}} 
+			  	/>
+			  }
 			},
 			{
 			  title:'操作',
@@ -142,10 +147,17 @@ class NormalCategoryList extends Component{
 					<Modal
 			          title="修改分类名称"
 			          visible={this.props.updateModalVisible}
-			          onOk={()=>{this.props.handleUpdateName(this.props.updateId,this.value)}}
+			          onOk={()=>{this.props.handleUpdateName(pid)}}
 			          onCancel={this.props.handleCancelName}
+			          cancelText='取消'
+			          okText='确定'
 			        >
-			          <Input placeholder={this.props.updateName} value={this.value}/>
+			          <Input 
+			          	  value={this.props.updateName}
+			        	  onChange={(e)=>{
+			        	  	this.props.handleChangeName(e.target.value)
+			        	  }}
+			          />
 			        </Modal>
 				</div>
 			</Layout>
@@ -165,7 +177,6 @@ const mapStateToProps = (state)=>{
 		pageSize:state.get('category').get('pageSize'),
 		list:state.get('category').get('list'),
 		updateModalVisible:state.get('category').get('updateModalVisible'),
-		updateId:state.get('category').get('updateId'),
 		updateName:state.get('category').get('updateName'),
 	}
 }
@@ -178,11 +189,17 @@ const mapDispatchToProps = (dispatch)=>{
 		showUpdateModal:(updateId,updateName)=>{
 			dispatch(createActions.getShowUpdateModalAction(updateId,updateName));
 		},
-		handleUpdateName:(updateId,updateName)=>{
-			dispatch(createActions.getChangeInputValueAction(updateId,updateName));
+		handleUpdateName:(pid)=>{
+			dispatch(createActions.getChangeInputValueAction(pid));
 		},
 		handleCancelName:()=>{
 			dispatch(createActions.getHideUpdateModalAction());
+		},
+		handleChangeName:(newName)=>{
+			dispatch(createActions.getChangeNameAction(newName));
+		},
+		handleOrder:(pid,id,newOrder)=>{			
+			dispatch(createActions.getChangeOrderAction(pid,id,newOrder));
 		}
 		
 	}
