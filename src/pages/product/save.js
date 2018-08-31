@@ -5,7 +5,8 @@ import { Breadcrumb,Form,Input,Select,Button,InputNumber } from 'antd'
 import * as createActions from './store/actionCreates.js'
 import CategorySelector from './category-select.js'
 import PicturesWall from 'common/upload-image/upload-image.js'
-import { UPLOAD_PRODUCT_IMAGE } from 'api';
+import { UPLOAD_PRODUCT_IMAGE,UPLOAD_PRODUCT_DETAIL_IMAGE } from 'api';
+import RichEditor from 'common/rich-editor';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -146,7 +147,9 @@ class NormalProductSave extends Component{
 				          {...formItemLayout}
 				          label="商品详情"
 				        >
-				          
+				          <RichEditor 
+				          	action={UPLOAD_PRODUCT_DETAIL_IMAGE}
+				          />
 				        </FormItem>
 				        <FormItem {...tailFormItemLayout}>
 				          <Button 

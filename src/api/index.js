@@ -12,3 +12,4 @@ export const CHANGE_ORDER = SERVER+'category/updateOrder';
 
 
 export const UPLOAD_PRODUCT_IMAGE = SERVER+'product/uploadImage';
+export const UPLOAD_PRODUCT_DETAIL_IMAGE = SERVER+'product/uploaDetaildImage';
