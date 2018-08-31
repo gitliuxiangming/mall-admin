@@ -1,23 +1,48 @@
 import { request,setUsername,removeUsername } from 'util';
 import { message } from 'antd';
-import { ADD_CATEGORY,GET_CATEGORIES,GET_INPUTVALUE,CHANGE_ORDER } from 'api';
+import { ADD_PRODUCT } from 'api';
 import * as types from './actionTypes.js';
 
+
+export const getSetCategoryAction = (parentCategoryId,categoryId)=>{
+	return{
+		type:types.SET_CATEGORY,
+		payload:{
+			parentCategoryId,
+			categoryId
+		}
+	}
+}
+
+
+export const getSetImageAction = (filePath)=>{
+	return{
+		type:types.SET_IMAGE,
+		payload:{
+			filePath
+		}
+	}
+}
+
+export const getSetDetailAction = (value)=>{
+	return{
+		type:types.SET_DETAIL,
+		payload:{
+			value
+		}
+	}
+}
+
+
 //生成action
-export const getAddRequstAction = ()=>{
+export const getSaveRequstAction = ()=>{
 	return{
-		type:types.ADD_REQUEST
+		type:types.SAVE_REQUEST
 	}
 }
-export const getAddDoneAction = ()=>{
+export const getSaveDoneAction = ()=>{
 	return{
-		type:types.ADD_DONE
-	}
-}
-export const setLevelOneCategories = (payload)=>{
-	return{
-		type:types.SET_LEVEL_ONE_CATEGORIES,
-		payload
+		type:types.SAVE_DONE
 	}
 }
 export const getPageRequestAction = ()=>{
@@ -36,38 +61,39 @@ export const getSetPageAction = (payload)=>{
 		payload
 	}
 }
-export const getShowUpdateModalAction = (updateId,updateName)=>{
-	return{
-		type:types.SHOW_UPDATE_MODAL,
-		payload:{
-			updateId,
-			updateName
-		}
+
+export const setCategoryError = (payload)=>{
+	return {
+		type:types.SET_CATEGORY_ERROR,
+		payload
 	}
 }
-export const getHideUpdateModalAction = ()=>{
-	return{
-		type:types.HIDE_UPDATE_MODAL,
-	}
-}
-export const getChangeUpdateModalAction = ()=>{
-	return{
-		type:types.CHANGE_UPDATE_MODAL,
-	}
-}
-export const getChangeNameAction = (payload)=>({
-	type:types.CHANGE_NAME,
-	payload
-})
 //方法
-export const getAddAction = (values)=>{
-	return (dispatch)=>{
+export const getSaveAction = (err,values)=>{
+	return (dispatch,getState)=>{
+		const state=getState().get('product');
+		const categoryId=state.get('categoryId');
+		console.log('拿不到ID',categoryId)
+		if(!categoryId){
+			dispatch(setCategoryError())
+			return;
+		}
+		if(err){
+			return;
+		}
         request({
 			method: 'post',
-			url: ADD_CATEGORY,
-			data: values
+			url: ADD_PRODUCT,
+			data: {
+				...values,
+				category:categoryId,
+				value:state.get('value'),
+				filePath:state.get('filePath')
+			}
 		})
 		.then((result)=>{
+			console.log(result)
+			/*
 			if(result.code == 0){
 				if(result.data){
 					dispatch(setLevelOneCategories(result.data))			
@@ -78,38 +104,17 @@ export const getAddAction = (values)=>{
 			}else{
 				message.error('已存在!')
 			}
+			*/
 
 		})
 		.catch((err)=>{
 			message.error('网络错误,请稍后在试!')
-			dispatch(getAddDoneAction())				
+			dispatch(getSaveDoneAction())				
 		})
 	}
 }
 
-export  const getLevelOneCategoriesAction = ()=>{
-	return (dispatch)=>{
-        request({
-			method: 'get',
-			url: GET_CATEGORIES,
-			data: {
-				pid:0
-			}
-		})
-		.then((result)=>{
-			if(result.code == 0){
-				dispatch(setLevelOneCategories(result.data))
-			}else{
-				message.error('网络错误,获取数据失败!')
-			}
-			dispatch(getAddDoneAction())			
-		})
-		.catch((err)=>{
-			message.error('网络错误,连接服务器失败123!')
-			dispatch(getAddDoneAction())				
-		})
-	}
-}
+
 
 export const getPageAction = (pid,page)=>{
 	return (dispatch)=>{
@@ -134,62 +139,6 @@ export const getPageAction = (pid,page)=>{
 			message.error('服务器错误')
 			const action = getPageDoneAction();
 			dispatch(action);
-		});
-	}
-}
-
-
-export const getChangeInputValueAction = (pid)=>{
-	// console.log('actionCreates的',updateName)
-	return (dispatch,getState)=>{
-		const state=getState().get('category')
-		request({
-			method:'put',
-			url: GET_INPUTVALUE,
-			data:{
-				id:state.get('updateId'),
-				name:state.get('updateName'),
-				pid:pid,
-				page:state.get('current')
-			}
-		})
-		.then((result) => {
-			if (result.code == 0) {
-				dispatch(getSetPageAction(result.data));
-				dispatch(getChangeUpdateModalAction())
-			}else{
-				message.error(result.message)
-			}
-		})
-		.catch(function (err) {
-			message.error('服务器错误')
-		});
-	}
-}
-
-export const getChangeOrderAction = (pid,id,newOrder)=>{
-	return (dispatch,getState)=>{
-		const state=getState().get('category')
-		request({
-			method:'put',
-			url: CHANGE_ORDER,
-			data:{
-				id:id,
-				order:newOrder,
-				pid:pid,
-				page:state.get('current')
-			}
-		})
-		.then((result) => {
-			if (result.code == 0) {
-				dispatch(getSetPageAction(result.data));
-				console.log('执行了setpage')
-			}else{
-				message.error(result.message)
-			}
-		})
-		.catch(function (err) {
-			message.error('服务器错误')
 		});
 	}
 }

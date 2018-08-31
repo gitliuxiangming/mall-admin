@@ -17,14 +17,12 @@ class NormalProductSave extends Component{
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	componentDidMount(){
-		this.props.getLevelOneCategories();
+		
 	}
 	handleSubmit(e){
 		e.preventDefault();
 		this.props.form.validateFields((err,values) => {
-			if(!err){
-				this.props.handleAdd(values);
-			}
+			this.props.handleSave(err,values);
 		});
 	}
 	render(){
@@ -87,10 +85,13 @@ class NormalProductSave extends Component{
 				        <FormItem
 				          {...formItemLayout}
 				          label="所属分类"
+				          required={true}
+				          validateStatus={this.props.categoryIdValidateStatus}
+				          help={this.props.categoryIdHelp}
 				        >
 				          <CategorySelector 
-				          		getCategoryId={(pid,id)=>{
-				          			
+				          		getCategoryId={(parentCategoryId,categoryId)=>{
+				          			this.props.handleCategory(parentCategoryId,categoryId)
 				          		}}
 				          />
 				        </FormItem>
@@ -137,7 +138,7 @@ class NormalProductSave extends Component{
 				        		imageMax={3}
 				        		getFileList={
 				        			(fileList)=>{
-				        				console.log(fileList)
+				        				this.props.handleImage(fileList)
 				        			}
 				        		}
 				        	/>
@@ -149,6 +150,9 @@ class NormalProductSave extends Component{
 				        >
 				          <RichEditor 
 				          	action={UPLOAD_PRODUCT_DETAIL_IMAGE}
+				          	getRichEditorValue={(value)=>{
+				          		this.props.handleDetail(value)
+				          	}}
 				          />
 				        </FormItem>
 				        <FormItem {...tailFormItemLayout}>
@@ -170,19 +174,28 @@ class NormalProductSave extends Component{
 
 const mapStateToProps = (state)=>{
 	return {
-		isAddFetching:state.get('category').get('isAddFetching'),
-		levelOneCategories:state.get('category').get('levelOneCategories')
+		categoryIdValidateStatus:state.get('product').get('categoryIdValidateStatus'),
+		categoryIdHelp:state.get('product').get('categoryIdHelp'),
 	}
 }
 
 const mapDispatchToProps = (dispatch)=>{
 	return{
-		handleAdd:(values)=>{
- 			dispatch(createActions.getAddAction(values));
+		handleCategory:(parentCategoryId,categoryId)=>{
+			console.log(parentCategoryId,categoryId)
+			dispatch(createActions.getSetCategoryAction(parentCategoryId,categoryId));
 		},
-		getLevelOneCategories:()=>{
-			dispatch(createActions.getLevelOneCategoriesAction());
+		handleImage:(fileList)=>{
+			dispatch(createActions.getSetImageAction(fileList));
+		},
+		handleDetail:(value)=>{
+			dispatch(createActions.getSetDetailAction(value));
+		},
+		handleSave:(err,values)=>{
+ 			dispatch(createActions.getSaveAction(err,values));
 		}
+
+		
 	}
 }
 const ProductSave = Form.create()(NormalProductSave);

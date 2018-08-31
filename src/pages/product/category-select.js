@@ -80,7 +80,7 @@ class CategorySelector extends Component{
 		if(levelTwoCategoryId){
 			this.props.getCategoryId(levelOneCategoryId,levelTwoCategoryId)
 		}else{
-			this.props.getCategoryId(0,levelTwoCategoryId)
+			this.props.getCategoryId(0,levelOneCategoryId)
 		}
 		
 	}
