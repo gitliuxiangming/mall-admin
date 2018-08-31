@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import { Upload, Icon, Modal } from 'antd';
 
+
 class PicturesWall extends Component {
   constructor(props){
     super(props)
@@ -24,8 +25,12 @@ class PicturesWall extends Component {
     });
   }}
 
-  handleChange (){
-    ({ fileList }) => this.setState({ fileList })
+  handleChange ({ fileList }){
+    this.setState({ fileList },()=>{
+      this.props.getFileList(fileList.map((file)=>{
+          return file.response
+      }).join(','))
+    })
   } 
 
   render() {
@@ -44,6 +49,7 @@ class PicturesWall extends Component {
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          withCredentials={true}
         >
           {fileList.length >= this.props.imageMax ? null : uploadButton}
         </Upload>

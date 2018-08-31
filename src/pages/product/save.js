@@ -5,6 +5,7 @@ import { Breadcrumb,Form,Input,Select,Button,InputNumber } from 'antd'
 import * as createActions from './store/actionCreates.js'
 import CategorySelector from './category-select.js'
 import PicturesWall from 'common/upload-image/upload-image.js'
+import { UPLOAD_PRODUCT_IMAGE } from 'api';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -131,8 +132,13 @@ class NormalProductSave extends Component{
 				          label="商品图片"
 				        >
 				        	<PicturesWall 
-				        		action={null}
+				        		action={UPLOAD_PRODUCT_IMAGE}
 				        		imageMax={3}
+				        		getFileList={
+				        			(fileList)=>{
+				        				console.log(fileList)
+				        			}
+				        		}
 				        	/>
 				          
 				        </FormItem>

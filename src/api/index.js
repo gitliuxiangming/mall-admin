@@ -8,3 +8,7 @@ export const ADD_CATEGORY = SERVER+'category';
 export const GET_CATEGORIES = SERVER+'category';
 export const GET_INPUTVALUE = SERVER+'category/updateName';
 export const CHANGE_ORDER = SERVER+'category/updateOrder';
+
+
+
+export const UPLOAD_PRODUCT_IMAGE = SERVER+'product/uploadImage';
