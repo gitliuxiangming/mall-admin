@@ -101,7 +101,7 @@ class NormalproductList extends Component{
 					</Breadcrumb>
 					<div className='clearfix catebtn'>
 						<Link to="/product/save" style={{float:'right'}}>
-							<Button type="primary">新增分类</Button>
+							<Button type="primary">新增商品</Button>
 						</Link>
 					</div>
 					

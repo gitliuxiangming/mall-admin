@@ -8,10 +8,8 @@ class Product extends Component{
 	render(){
 		return(
 			<Switch>
-				
-				<Route path="/product/save"  component={ ProductSave } />
+				<Route path="/product/save/:ProductId?"  component={ ProductSave } />
 				<Route path="/product/"  component={ ProductList } />
-
 			</Switch>
 		)
 	}

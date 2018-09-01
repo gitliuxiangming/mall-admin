@@ -15,6 +15,10 @@ const defaultState = fromJS({
 	total:0,
 	list:[],
 	pageSize:10,
+	editName:'',
+	editDescription:'',
+	editPrice:'',
+	editStock:''
 })
 
 export default (state=defaultState,action)=>{
@@ -63,5 +67,27 @@ export default (state=defaultState,action)=>{
 			categoryIdValidateStatus:'error',
 		})
 	}
+	
+	if (action.type === types.GET_DETAIL_ALL){
+		return state.merge({
+			parentCategoryId:action.payload.category.pid,
+			categoryId:action.payload.category._id,
+			filePath:action.payload.filePath,
+			value:action.payload.value,
+			editName:action.payload.name,
+			editDescription:action.payload.description,
+			editPrice:action.payload.price,
+			editStock:action.payload.stoke
+		})
+	}
+
+
+
+
+
+
+
+
+
 	return state;
 }

@@ -1,6 +1,6 @@
 import { request,setUsername,removeUsername } from 'util';
 import { message } from 'antd';
-import { ADD_PRODUCT,GET_PRODUCT,CHANGE_PRODUCT_ORDER,CHANGE_PRODUCT_STATUS } from 'api';
+import { ADD_PRODUCT,GET_PRODUCT,CHANGE_PRODUCT_ORDER,CHANGE_PRODUCT_STATUS,GET_PRODUCT_EDIT } from 'api';
 import * as types from './actionTypes.js';
 
 
@@ -69,7 +69,12 @@ export const setCategoryError = (payload)=>{
 	}
 }
 
-
+export const setaLLDetailAction = (payload)=>{
+	return {
+		type:types.GET_DETAIL_ALL,
+		payload
+	}
+}
 
 
 
@@ -139,7 +144,7 @@ export const getPageAction = (page)=>{
 			dispatch(getPageDoneAction());
 		})
 		.catch(function (err) {
-			message.error('服务器错误')
+			message.error('服务器错误，挂载中')
 			const action = getPageDoneAction();
 			dispatch(action);
 		});
@@ -192,6 +197,30 @@ export const getChangeStatusAction = (id,newStatus)=>{
 				message.error(result.message)
 			}
 			
+		})
+		.catch(function (err) {
+			message.error('服务器错误')
+		});
+	}
+}
+
+//编辑请求
+export const getEditProductAction = (ProductId)=>{
+	return (dispatch)=>{
+		request({
+			method:'get',
+			url: GET_PRODUCT_EDIT,
+			data:{
+				id:ProductId,
+			}
+		})
+		.then((result) => {
+			if (result.code == 0) {
+				console.log(result.data)
+				dispatch(setaLLDetailAction(result.data));
+			}else{
+				message.error(result.message)
+			}
 		})
 		.catch(function (err) {
 			message.error('服务器错误')

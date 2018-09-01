@@ -17,4 +17,5 @@ export const ADD_PRODUCT = SERVER+'product';
 export const GET_PRODUCT = SERVER+'product';
 export const CHANGE_PRODUCT_ORDER = SERVER+'product/updateOrder';
 export const CHANGE_PRODUCT_STATUS = SERVER+'product/updateStatus';
+export const GET_PRODUCT_EDIT = SERVER+'product/detail';
 

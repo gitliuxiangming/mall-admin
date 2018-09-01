@@ -14,12 +14,56 @@ class CategorySelector extends Component{
 			levelOneCategoryId:'',
 			levelTwoCategories:[],
 			levelTwoCategoryId:'',
+			needLoadLevelTwo:false,
+			isChanged:false
 		}
 		this.handleLevelOneChange = this.handleLevelOneChange.bind(this)
 		this.handleLevelTwoChange = this.handleLevelTwoChange.bind(this)
 	}
 	componentDidMount(){
 		this.loadLevelOneCategory()
+	}
+	static getDerivedStateFromProps(props,state){
+		const levelOneCategoyIdChanged = props.parentCategoryId !== state.levelOneCategoyId
+		const levelTwoCategoyIdChanged = props.categoryId !== state.levelTwoCategoyId
+		//如果分类id没有改变，就不更新
+		if(!levelOneCategoyIdChanged && !levelTwoCategoyIdChanged){
+			return null;
+		}
+
+		if(state.isChanged){
+			return null;
+		}
+
+		if(props.parentCategoryId == 0){//只有一级分类
+			return {
+				levelOneCategoryId:props.categoryId,
+				levelTwoCategoryId:"",
+				isChanged:true
+			}
+		}else{
+			return {
+				levelOneCategoryId:props.parentCategoryId,
+				levelTwoCategoryId:props.categoryId,
+				needLoadLevelTwo:true,
+				isChanged:true
+			}
+		}
+		return null
+		// this.state ={
+		// 	levelOneCategories:[],
+		// 	levelOneCategoryId:this.props.parentCategoryId,
+		// 	levelTwoCategories:[],
+		// 	levelTwoCategoryId:this.props.categoryId,
+		// }
+	}
+	componentDidUpdate(){
+		if(this.state.needLoadLevelTwo){
+			this.loadLevelTwoCategory();
+			this.setState({
+				needLoadLevelTwo:false	
+			})
+		}
 	}
 	loadLevelOneCategory(){
 		request({

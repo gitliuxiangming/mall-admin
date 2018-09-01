@@ -15,9 +15,14 @@ class NormalProductSave extends Component{
 	constructor(props){
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.state={
+			ProductId:this.props.match.params.ProductId
+		}
 	}
 	componentDidMount(){
-		
+		if(this.state.ProductId){
+			this.props.handleEditProduct(this.state.ProductId)
+		}
 	}
 	handleSubmit(e){
 		e.preventDefault();
@@ -26,6 +31,21 @@ class NormalProductSave extends Component{
 		});
 	}
 	render(){
+		const {
+			parentCategoryId,
+			categoryId,
+			filePath,
+			value,
+			editName,
+			editDescription,
+			editPrice,
+			editStock
+		} = this.props;
+
+
+
+
+
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {
 	      	labelCol: {
@@ -66,6 +86,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品名称!',
 				            }],
+				            initialValue:editName
 				          })(
 				            <Input style={{ width: 300 }} placeholder='填写商品名称'/>
 				          )}
@@ -78,6 +99,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品描述!',
 				            }],
+				            initialValue:editDescription
 				          })(
 				            <Input style={{ width: 300 }} placeholder='填写商品描述'/>
 				          )}
@@ -90,6 +112,8 @@ class NormalProductSave extends Component{
 				          help={this.props.categoryIdHelp}
 				        >
 				          <CategorySelector 
+				          		parentCategoryId={parentCategoryId}
+				          		categoryId={categoryId}
 				          		getCategoryId={(parentCategoryId,categoryId)=>{
 				          			this.props.handleCategory(parentCategoryId,categoryId)
 				          		}}
@@ -103,6 +127,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品价格!',
 				            }],
+				            initialValue:editPrice
 				          })(
 				            <InputNumber 
 				            	initialValue={100}
@@ -120,6 +145,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品库存!',
 				            }],
+				            initialValue:editStock
 				          })(
 				            <InputNumber 
 				            	initialValue={100}
@@ -162,7 +188,6 @@ class NormalProductSave extends Component{
 				          	loading = {this.props.isAddFetching}
 				          >提交</Button>
 				        </FormItem>
-
 					</Form>
 
 				</div>
@@ -176,13 +201,22 @@ const mapStateToProps = (state)=>{
 	return {
 		categoryIdValidateStatus:state.get('product').get('categoryIdValidateStatus'),
 		categoryIdHelp:state.get('product').get('categoryIdHelp'),
+		parentCategoryId:state.get('product').get('parentCategoryId'),
+		categoryId:state.get('product').get('categoryId'),
+		filePath:state.get('product').get('filePath'),
+		value:state.get('product').get('value'),
+		editName:state.get('product').get('editName'),
+		editDescription:state.get('product').get('editDescription'),
+		editPrice:state.get('product').get('editPrice'),
+		editStock:state.get('product').get('editStock'),
+
+
 	}
 }
 
 const mapDispatchToProps = (dispatch)=>{
 	return{
 		handleCategory:(parentCategoryId,categoryId)=>{
-			console.log(parentCategoryId,categoryId)
 			dispatch(createActions.getSetCategoryAction(parentCategoryId,categoryId));
 		},
 		handleImage:(fileList)=>{
@@ -193,7 +227,10 @@ const mapDispatchToProps = (dispatch)=>{
 		},
 		handleSave:(err,values)=>{
  			dispatch(createActions.getSaveAction(err,values));
-		}
+		},
+		handleEditProduct:(ProductId)=>{
+ 			dispatch(createActions.getEditProductAction(ProductId));
+		},
 
 		
 	}
