@@ -1,6 +1,6 @@
 import { request,setUsername,removeUsername } from 'util';
 import { message } from 'antd';
-import { ADD_PRODUCT } from 'api';
+import { ADD_PRODUCT,GET_PRODUCT,CHANGE_PRODUCT_ORDER,CHANGE_PRODUCT_STATUS } from 'api';
 import * as types from './actionTypes.js';
 
 
@@ -68,12 +68,25 @@ export const setCategoryError = (payload)=>{
 		payload
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //方法
 export const getSaveAction = (err,values)=>{
 	return (dispatch,getState)=>{
 		const state=getState().get('product');
 		const categoryId=state.get('categoryId');
-		console.log('拿不到ID',categoryId)
 		if(!categoryId){
 			dispatch(setCategoryError())
 			return;
@@ -92,20 +105,12 @@ export const getSaveAction = (err,values)=>{
 			}
 		})
 		.then((result)=>{
-			console.log(result)
-			/*
 			if(result.code == 0){
-				if(result.data){
-					dispatch(setLevelOneCategories(result.data))			
-				}else{
-					message.success('添加分类成功');					
-				}
-				window.location.href = '/category';
+				message.success(result.message);
+				window.location.href = '/product';
 			}else{
 				message.error('已存在!')
 			}
-			*/
-
 		})
 		.catch((err)=>{
 			message.error('网络错误,请稍后在试!')
@@ -116,20 +121,18 @@ export const getSaveAction = (err,values)=>{
 
 
 
-export const getPageAction = (pid,page)=>{
+export const getPageAction = (page)=>{
 	return (dispatch)=>{
 		dispatch(getPageRequestAction());
 		request({
-			url: GET_CATEGORIES,
+			url: GET_PRODUCT,
 			data:{
-				pid:pid,
 				page:page
 			}
 		})
 		.then((result) => {
 			if (result.code == 0) {
 				dispatch(getSetPageAction(result.data));
-				dispatch(getPageDoneAction());
 			}else{
 				message.error('获取数据失败')
 			}
@@ -139,6 +142,59 @@ export const getPageAction = (pid,page)=>{
 			message.error('服务器错误')
 			const action = getPageDoneAction();
 			dispatch(action);
+		});
+	}
+}
+
+export const getChangeOrderAction = (id,newOrder)=>{
+	return (dispatch,getState)=>{
+		const state=getState().get('product')
+		request({
+			method:'put',
+			url: CHANGE_PRODUCT_ORDER,
+			data:{
+				id:id,
+				order:newOrder,
+				page:state.get('current')
+			}
+		})
+		.then((result) => {
+			if (result.code == 0) {
+				dispatch(getSetPageAction(result.data));
+			}else{
+				message.error(result.message)
+			}
+		})
+		.catch(function (err) {
+			message.error('服务器错误')
+		});
+	}
+}
+
+
+export const getChangeStatusAction = (id,newStatus)=>{
+	return (dispatch,getState)=>{
+		const state=getState().get('product')
+		request({
+			method:'put',
+			url: CHANGE_PRODUCT_STATUS,
+			data:{
+				id:id,
+				status:newStatus,
+				page:state.get('current')
+			}
+		})
+		.then((result) => {
+			if (result.code == 0) {
+				message.success(result.message)
+			}else{
+				dispatch(getSetPageAction(result.data));
+				message.error(result.message)
+			}
+			
+		})
+		.catch(function (err) {
+			message.error('服务器错误')
 		});
 	}
 }
