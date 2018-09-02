@@ -24,8 +24,8 @@ class CategorySelector extends Component{
 		this.loadLevelOneCategory()
 	}
 	static getDerivedStateFromProps(props,state){
-		const levelOneCategoyIdChanged = props.parentCategoryId !== state.levelOneCategoyId
-		const levelTwoCategoyIdChanged = props.categoryId !== state.levelTwoCategoyId
+		const levelOneCategoyIdChanged = props.parentCategoryId !== state.levelOneCategoryId
+		const levelTwoCategoyIdChanged = props.categoryId !== state.levelTwoCategoryId
 		//如果分类id没有改变，就不更新
 		if(!levelOneCategoyIdChanged && !levelTwoCategoyIdChanged){
 			return null;
@@ -136,6 +136,8 @@ class CategorySelector extends Component{
 	    return (
 	      <div>
 	        <Select 
+	       		defaultValue={levelOneCategoryId}
+				value={levelOneCategoryId}
 	        	style={{ width: 200,marginRight:20 }} 
 	        	onChange={this.handleLevelOneChange}
 	        >
