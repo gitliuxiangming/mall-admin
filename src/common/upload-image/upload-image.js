@@ -20,8 +20,13 @@ class PicturesWall extends Component {
     this.setState({ 
         previewVisible: false 
     })
-}
-
+  }
+  static getDerivedStateFromProps(props,state){
+    if(props.fileList.length>0 && state.fileList.length == 0){
+        state.fileList=props.fileList
+    }
+      return null
+  }
   handlePreview (file){ 
     this.setState({
       previewImage: file.url || file.thumbUrl,

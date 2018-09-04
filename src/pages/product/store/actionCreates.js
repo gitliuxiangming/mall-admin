@@ -1,6 +1,6 @@
 import { request,setUsername,removeUsername } from 'util';
 import { message } from 'antd';
-import { ADD_PRODUCT,GET_PRODUCT,CHANGE_PRODUCT_ORDER,CHANGE_PRODUCT_STATUS,GET_PRODUCT_EDIT } from 'api';
+import { SAVE_PRODUCT,GET_PRODUCTS_SEARCH,GET_PRODUCT,CHANGE_PRODUCT_ORDER,CHANGE_PRODUCT_STATUS,GET_PRODUCT_EDIT } from 'api';
 import * as types from './actionTypes.js';
 
 
@@ -31,6 +31,9 @@ export const getSetDetailAction = (value)=>{
 			value
 		}
 	}
+}
+export const getProductDetailAction = ()=>{
+	
 }
 
 
@@ -99,9 +102,15 @@ export const getSaveAction = (err,values)=>{
 		if(err){
 			return;
 		}
+		//新增处理
+		let method = 'post';
+		//编辑处理
+		if(values.id){
+			method = 'put'
+		}
         request({
-			method: 'post',
-			url: ADD_PRODUCT,
+			method: method,
+			url: SAVE_PRODUCT,
 			data: {
 				...values,
 				category:categoryId,
@@ -224,6 +233,29 @@ export const getEditProductAction = (ProductId)=>{
 		})
 		.catch(function (err) {
 			message.error('服务器错误')
+		});
+	}
+}
+
+export const getSearchAction = (keyword,page)=>{
+	return (dispatch)=>{
+		request({
+			method:'get',
+			url: GET_PRODUCTS_SEARCH,
+			data:{
+				keyword,
+				page
+			}
+		})
+		.then((result) => {
+			if (result.code === 0) {
+				dispatch(getSetPageAction(result.data));
+			}else{
+				message.error(result.message)
+			}
+		})
+		.catch(function (err) {
+			message.error('获取数据失败')
 		});
 	}
 }

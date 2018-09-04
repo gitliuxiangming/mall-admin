@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
 import Layout from 'common/layout'
 import { Link } from 'react-router-dom'
-import { Breadcrumb,Form,InputNumber,Select,Button,Table,Divider,Modal,Input,Switch,Icon } from 'antd'
+import { Breadcrumb,Form,InputNumber,Select,Button,Table,Divider,Modal,Input,Switch,Icon } from 'antd';
+const Search = Input.Search;
 import { connect } from 'react-redux'
 import * as createActions from './store/actionCreates.js'
 
@@ -32,6 +33,15 @@ class NormalproductList extends Component{
 			  title: '商品名称',
 			  dataIndex: 'name',
 			  key: 'name',
+			  render:(name)=>{
+			  	if(keyword){
+			  		let reg = new RegExp('('+keyword+')',"ig");
+			  		let html = name.replace(reg,'<b style="color:orange">$1</b>')
+			  		return <span dangerouslySetInnerHTML = {{__html:html}}></span>
+			  	}else{
+			  		return name;
+			  	}
+			  }
 			},
 			{
 			  title: '商品状态',
@@ -92,6 +102,7 @@ class NormalproductList extends Component{
 				status:product.get('status'),
 			}
 		}).toJS();
+		const { keyword } = this.props;
 		return(
 			<Layout>
 				<div>
@@ -99,6 +110,15 @@ class NormalproductList extends Component{
 						<Breadcrumb.Item>商品管理</Breadcrumb.Item>
 						<Breadcrumb.Item>商品列表</Breadcrumb.Item>
 					</Breadcrumb>
+					<div style={{marginTop:10,float:'left'}} className="clearfix">
+						<Search
+						placeholder='啦啦啦啦'
+						enterButton
+						onSearch={value=>{
+							this.props.handleSearch(value,1)
+						}}
+						 />
+					</div>
 					<div className='clearfix catebtn'>
 						<Link to="/product/save" style={{float:'right'}}>
 							<Button type="primary">新增商品</Button>
@@ -117,7 +137,12 @@ class NormalproductList extends Component{
 							}
 						}
 						onChange = {(pagination)=>{
-							this.props.handlePage(pagination.current);
+							if(keyword){
+								this.props.handleSearch(keyword,pagination.current)
+							}else{
+								this.props.handlePage(pagination.current);
+							}
+							
 						}}
 						loading = {
 							{
@@ -143,6 +168,7 @@ const mapStateToProps = (state)=>{
 		total:state.get('product').get('total'),
 		pageSize:state.get('product').get('pageSize'),
 		list:state.get('product').get('list'),
+		keyword:state.get('product').get('keyword')
 	}
 }
 const mapDispatchToProps = (dispatch)=>{
@@ -156,6 +182,9 @@ const mapDispatchToProps = (dispatch)=>{
 		},
 		handleStatus:(id,newStatus)=>{
 			dispatch(createActions.getChangeStatusAction(id,newStatus));
+		},
+		handleSearch:(keyword,page)=>{
+			dispatch(createActions.getSearchAction(keyword,page));
 		}
 		
 		

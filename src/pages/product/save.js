@@ -16,7 +16,7 @@ class NormalProductSave extends Component{
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.state={
-			ProductId:this.props.match.params.ProductId
+			ProductId:this.props.match.params.ProductId,
 		}
 	}
 	componentDidMount(){
@@ -24,9 +24,11 @@ class NormalProductSave extends Component{
 			this.props.handleEditProduct(this.state.ProductId)
 		}
 	}
+	
 	handleSubmit(e){
 		e.preventDefault();
 		this.props.form.validateFields((err,values) => {
+			values.id = this.state.ProductId
 			this.props.handleSave(err,values);
 		});
 	}
@@ -36,16 +38,22 @@ class NormalProductSave extends Component{
 			categoryId,
 			filePath,
 			value,
-			editName,
-			editDescription,
-			editPrice,
-			editStock
+			name,
+			description,
+			price,
+			stock
 		} = this.props;
+		let fileList = [];
+		if(filePath){
+			fileList = filePath.split(',').map((img,index)=>({
+				uid:index,
+				status:"done",
+				url:img,
+				response:img
+			}))
+			// console.log('filePath:::',filePath)
 
-
-
-
-
+		}
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {
 	      	labelCol: {
@@ -75,7 +83,13 @@ class NormalProductSave extends Component{
 				<div>
 					<Breadcrumb>
 						<Breadcrumb.Item>商品管理</Breadcrumb.Item>
-						<Breadcrumb.Item>添加商品</Breadcrumb.Item>
+						<Breadcrumb.Item>
+							{
+								this.state.ProductId
+								?	'编辑商品'
+								:	'添加商品'
+							}
+						</Breadcrumb.Item>
 					</Breadcrumb>
 					<Form style={{ marginTop:30 }}>
 						<FormItem
@@ -86,7 +100,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品名称!',
 				            }],
-				            initialValue:editName
+				            initialValue:name
 				          })(
 				            <Input style={{ width: 300 }} placeholder='填写商品名称'/>
 				          )}
@@ -99,7 +113,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品描述!',
 				            }],
-				            initialValue:editDescription
+				            initialValue:description
 				          })(
 				            <Input style={{ width: 300 }} placeholder='填写商品描述'/>
 				          )}
@@ -127,7 +141,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品价格!',
 				            }],
-				            initialValue:editPrice
+				            initialValue:price
 				          })(
 				            <InputNumber 
 				            	initialValue={100}
@@ -145,7 +159,7 @@ class NormalProductSave extends Component{
 				            rules: [{
 				              required: true, message: '填写商品库存!',
 				            }],
-				            initialValue:editStock
+				            initialValue:stock
 				          })(
 				            <InputNumber 
 				            	initialValue={100}
@@ -162,6 +176,7 @@ class NormalProductSave extends Component{
 				        	<PicturesWall 
 				        		action={UPLOAD_PRODUCT_IMAGE}
 				        		imageMax={3}
+				        		fileList={fileList}
 				        		getFileList={
 				        			(fileList)=>{
 				        				this.props.handleImage(fileList)
@@ -179,6 +194,7 @@ class NormalProductSave extends Component{
 				          	getRichEditorValue={(value)=>{
 				          		this.props.handleDetail(value)
 				          	}}
+				          	detail={value}
 				          />
 				        </FormItem>
 				        <FormItem {...tailFormItemLayout}>
@@ -205,10 +221,10 @@ const mapStateToProps = (state)=>{
 		categoryId:state.get('product').get('categoryId'),
 		filePath:state.get('product').get('filePath'),
 		value:state.get('product').get('value'),
-		editName:state.get('product').get('editName'),
-		editDescription:state.get('product').get('editDescription'),
-		editPrice:state.get('product').get('editPrice'),
-		editStock:state.get('product').get('editStock'),
+		name:state.get('product').get('name'),
+		description:state.get('product').get('description'),
+		price:state.get('product').get('price'),
+		stock:state.get('product').get('stock'),
 
 
 	}
@@ -230,9 +246,7 @@ const mapDispatchToProps = (dispatch)=>{
 		},
 		handleEditProduct:(ProductId)=>{
  			dispatch(createActions.getEditProductAction(ProductId));
-		},
-
-		
+		}
 	}
 }
 const ProductSave = Form.create()(NormalProductSave);

@@ -28,6 +28,9 @@ class RichEditor extends Component{
 		  'outdent',
 		  'alignment',
 		]
+		this.state= {
+			isLoaded:false
+		}
 		//juqery ajax 设置跨域携带cookie
 		$.ajaxSetup({
 			xhrFields:{
@@ -48,6 +51,14 @@ class RichEditor extends Component{
  		this.editor.on('valuechanged',()=>{ 
  			this.props.getRichEditorValue(this.editor.getValue())
  		})
+	}
+	componentDidUpdate(){
+		if(this.props.detail && !this.state.isLoaded){
+			this.editor.setValue(this.props.detail)
+			this.setState({
+				isLoaded:true
+			})
+		}
 	}
 
 	render(){

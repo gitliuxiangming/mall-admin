@@ -15,10 +15,11 @@ const defaultState = fromJS({
 	total:0,
 	list:[],
 	pageSize:10,
-	editName:'',
-	editDescription:'',
-	editPrice:'',
-	editStock:''
+	name:'',
+	description:'',
+	price:'',
+	stock:'',
+	keyword:''
 })
 
 export default (state=defaultState,action)=>{
@@ -51,7 +52,8 @@ export default (state=defaultState,action)=>{
 			current:action.payload.current,
 			total:action.payload.total,
 			pageSize:action.payload.pageSize,
-			list:fromJS(action.payload.list)
+			list:fromJS(action.payload.list),
+			keyword:action.payload.keyword,
 		})
 	}
 	if (action.type === types.PAGE_REQUEST) {
@@ -74,10 +76,10 @@ export default (state=defaultState,action)=>{
 			categoryId:action.payload.category._id,
 			filePath:action.payload.filePath,
 			value:action.payload.value,
-			editName:action.payload.name,
-			editDescription:action.payload.description,
-			editPrice:action.payload.price,
-			editStock:action.payload.stoke
+			name:action.payload.name,
+			description:action.payload.description,
+			price:action.payload.price,
+			stock:action.payload.stoke,
 		})
 	}
 
