@@ -1,0 +1,192 @@
+.imgBox li{
+	width: 80px;
+	height: 100px;
+	list-style: none;
+	float: left;
+	margin-right: 5px;
+	padding: 5px;
+	border: 1px solid #ddd;
+}
+.imgBox img{
+	width: 100%;
+}
+.user-content{
+	height: 600px;
+	margin-top: 20px;
+	width: 100%;
+}
+.container{
+	width: 1200px;
+	margin:0 auto;
+}
+
+.content{
+	color: #000;
+	background-color: #fff;
+	padding: 20px;
+	width: 900px;
+	min-height: 600px;
+	display: inline-block;
+	float: right;
+}
+.content-item{
+	margin-top: 10px;
+	
+}
+
+.form-item{
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	border:none;
+}
+.label-item{
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+.content-item{
+	display: inline-block;
+	width: 400px;
+	padding-left: 40px;
+}
+.product-header li,
+.product-item li,
+.product-footer li{
+	float: left;
+}
+.product-header ,
+.product-item ,
+.product-footer{
+	margin-bottom: 10px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+.product-header{
+	height: 80px;
+	line-height: 80px;
+	background: #ddd;
+	font-size: 15px;
+	color:#666;
+}
+.product-item{
+	border: 1px solid #ddd;
+	height: 80px;
+	line-height: 80px;
+	font-size: 15px;
+	color:#666;
+	margin-bottom: 50px;
+}
+.header-select,
+.product-select{
+	width: 6%;
+}
+.header-product,
+.product-info{
+	width: 54%;
+}
+.header-price,
+.product-price{
+	width: 10%;
+}
+.header-count,
+.product-count{
+	width: 10%;
+}
+.header-totalprice,
+.product-totalprice{
+	width: 10%;
+}
+
+.product-info img{
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
+}
+.product-info a{
+	text-decoration: none;
+	color: #111;
+}
+.product-count .count-input{
+	width: 40px;
+	height: 20px;
+	outline: none;
+	text-align: center;
+	font-size: 5px;
+}
+.count-btn {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	line-height: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+.product-footer{
+	height: 60px;
+
+	line-height: 60px;
+	background: #ddd;
+}
+.product-footer li {
+	margin-right: 10px;
+}
+.footer-select{
+	
+}
+.footer-option{
+	
+}
+.product-footer #footer-submit{
+	float:right ;
+	width: 180px;
+	height: 60px;
+}
+
+.footer-submit .btn{
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	width: 80px;
+	text-decoration: none;
+	float: right;
+}
+.gohome-btn{
+	width: 200px;
+	text-decoration: none;
+	font-size: 20px;
+	margin-left: 500px;
+	margin-top: 20px;
+}
+.delete-one,
+.deleteSelect{
+	cursor: pointer;
+}
+.order-list{
+}
+.order-item{
+	height: 40px;	
+	color:#666;
+}
+.order-item .btn{
+	display: inline-block;
+	height: 40px;
+	width: 80px;
+	line-height: 40px;
+	text-align: center;
+	color:#555;
+	
+}
+.order-item a.payment{
+	text-decoration: none;
+	color:#666;
+}
+.order-item a:hover{
+	text-decoration: none;
+	color:#fff;
+}
+.order-item .payment{
+	color: #f21;
+	font-weight: bold;
+} 

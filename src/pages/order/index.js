@@ -1,17 +1,15 @@
 import React,{ Component } from 'react';
 import { Switch,Route } from 'react-router-dom'
-import ProductSave from './save.js'
-import ProductList from './list.js'
-import ProductDetail from './detail.js'
+import OrderList from './list.js'
+import OrderDetail from './detail.js'
 
-class Product extends Component{
+class Order extends Component{
 
 	render(){
 		return(
 			<Switch>
-				<Route path="/product/save/:ProductId?"  component={ ProductSave } />
-				<Route path="/product/detail/:ProductId"  component={ ProductDetail } />
-				<Route path="/product/"  component={ ProductList } />
+				<Route path="/order/detail/:orderNo" component={ OrderDetail } />
+				<Route path="/order" component={ OrderList } />
 			</Switch>
 		)
 	}
@@ -19,4 +17,4 @@ class Product extends Component{
 }
 
 
-export default Product;
+export default Order;
