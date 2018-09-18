@@ -172,6 +172,9 @@ class NormalProductSave extends Component{
 				        <FormItem
 				          {...formItemLayout}
 				          label="商品图片"
+				          required={true}
+				          validateStatus={this.props.imagesIdValidateStatus}
+				          help={this.props.imagesIdHelp}
 				        >
 				        	<PicturesWall 
 				        		action={UPLOAD_PRODUCT_IMAGE}
@@ -202,7 +205,9 @@ class NormalProductSave extends Component{
 				          	type="primary" 
 				          	onClick={ this.handleSubmit }
 				          	loading = {this.props.isAddFetching}
-				          >提交</Button>
+				          >
+				          	提交
+				          </Button>
 				        </FormItem>
 					</Form>
 
@@ -217,6 +222,8 @@ const mapStateToProps = (state)=>{
 	return {
 		categoryIdValidateStatus:state.get('product').get('categoryIdValidateStatus'),
 		categoryIdHelp:state.get('product').get('categoryIdHelp'),
+		iamgesIdValidateStatus:state.get('product').get('iamgesIdValidateStatus'),
+		imagesIdHelp:state.get('product').get('imagesIdHelp'),
 		parentCategoryId:state.get('product').get('parentCategoryId'),
 		categoryId:state.get('product').get('categoryId'),
 		filePath:state.get('product').get('filePath'),

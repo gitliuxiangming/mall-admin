@@ -6,6 +6,7 @@ import User from 'pages/user';
 import Category from 'pages/category';
 import Product from 'pages/product';
 import ErrorPage from 'pages/errorpage';
+import Order from 'pages/order';
 import { getUsername  } from 'util';
 import {
   BrowserRouter as Router,
@@ -46,6 +47,7 @@ class App extends Component {
 						<ProtectRoute  path='/user' component={ User } />
 						<ProtectRoute  path='/category' component={ Category } />
 						<ProtectRoute  path='/product' component={ Product } />
+						<ProtectRoute  path='/order' component={ Order } />
 						<LoginRoute  path='/login' component={ Login } />
 						<Route component={ ErrorPage } />
 					</Switch>
